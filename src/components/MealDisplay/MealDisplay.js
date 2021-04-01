@@ -1,34 +1,41 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 //import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
+import { ListItemText } from "@material-ui/core";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+
+import { getMeals, getExercises, dailyTotalCalories, getMealTotal, getExerciseTotal } from "../../store/selectors";
+import { addMealAction } from "../../store/meals";
+import exercises from "../../store/exercises";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
-  
   icon: {
     marginRight: theme.spacing(2),
   },
@@ -44,57 +51,84 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(8),
   },
   card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   cardContent: {
     flexGrow: 1,
   },
   logout: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
-},
+  },
   reset: {
-    position: 'absolute',
+    position: "absolute",
     right: 110,
-},
+  },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default function Display() {
   const classes = useStyles();
+
+  const meals = useSelector(getMeals);
+  const exercises = useSelector(getExercises);
+  const dailyTotal = useSelector(dailyTotalCalories);
+  const mealTotal = useSelector(getMealTotal);
+  const exerciseTotal = useSelector(getExerciseTotal);
+
+  const dispatch = useDispatch();
 
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-        <Button variant="contained" color="primary">
-        +
-        </Button>
-        <Button  className={classes.logout} variant="contained" color="primary">
-                    Logout
-        </Button>
-        <Button  className={classes.reset} variant="contained" color="red">
-                    Reset
-        </Button>
-
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              dispatch(
+                addMealAction("dinner", [
+                  { name: "cheese", calories: 20 },
+                  { name: "lettuce", calories: 700 },
+                ])
+              )
+            }
+          >
+            +
+          </Button>
+          <Button
+            className={classes.logout}
+            variant="contained"
+            color="primary"
+          >
+            Logout
+          </Button>
+          <Button className={classes.reset} variant="contained" color="red">
+            Reset
+          </Button>
         </Toolbar>
       </AppBar>
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
               Calories
             </Typography>
             <div className={classes.heroButtons}>
@@ -103,19 +137,19 @@ export default function Display() {
                   <Button variant="contained" color="primary">
                     Today
                   </Button>
-                  <p>800</p>
+                  <p>{dailyTotal}</p>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary">
                     Meals
                   </Button>
-                  <p>+1000</p>
+                  <p>{mealTotal}</p>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary">
                     Exercises
                   </Button>
-                  <p>-200</p>
+                  <p>{exerciseTotal}</p>
                 </Grid>
               </Grid>
             </div>
@@ -125,8 +159,8 @@ export default function Display() {
           {/* End hero unit */}
           <p>Meals</p>
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {meals.map((meal) => (
+              <Grid item key={meal.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
@@ -135,10 +169,25 @@ export default function Display() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      {meal.name.toUpperCase()}
                     </Typography>
+                    <List>
+                      {meal.foodItems.map((item) => {
+                        return (
+                          <ListItem>
+                            <ListItemText
+                              primary={item.name}
+                              secondary={item.calories}
+                            />
+                          </ListItem>
+                        );
+                      })}
+                    </List>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      {/* {meal.foodItems.reduce(
+                        (acc, curr) => curr.calories + acc,
+                        0
+                      )} */}
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -159,8 +208,8 @@ export default function Display() {
           {/* End hero unit */}
           <p>Exercises</p>
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {exercises.map((exercise) => (
+              <Grid item key={exercise.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
@@ -169,10 +218,11 @@ export default function Display() {
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      {exercise.name}
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                      <h3>Calories Burned</h3>
+                      {exercise.calories}
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -188,14 +238,18 @@ export default function Display() {
             ))}
           </Grid>
         </Container>
-
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="textSecondary"
+          component="p"
+        >
           Something here to give the footer a purpose!
         </Typography>
         <Copyright />

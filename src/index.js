@@ -4,16 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-//import { createStore, applyMiddleWare, compose } from "redux";
-import { Provider } from "react-redux";
+import store from "./store";
 
-//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSIONS_COMPOSE || compose;
-
-//const store = createStore();
+import { Provider as ReduxProvider } from "react-redux";
 
 ReactDOM.render(
   <React.StrictMode>
+    <ReduxProvider store={store}>
       <App />
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

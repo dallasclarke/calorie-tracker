@@ -1,15 +1,16 @@
+import React, { useReducer } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
 } from "react-router-dom";
 
-import SignIn from "./components/Login/Login"
+import SignIn from "./components/Login/Login";
 import Display from "./components/MealDisplay/MealDisplay";
-import Register from "./components/Register/Register"
+import Register from "./components/Register/Register";
 
 export default function App() {
   return (
@@ -46,7 +47,6 @@ export default function App() {
           <Route path="/">
             <Home />
             <Display />
-
           </Route>
         </Switch>
       </div>
@@ -74,9 +74,7 @@ function Topics() {
           <Link to={`${match.url}/meal`}>Add Meal</Link>
         </li>
         <li>
-          <Link to={`${match.url}/exercise`}>
-            Add Exercise
-          </Link>
+          <Link to={`${match.url}/exercise`}>Add Exercise</Link>
         </li>
       </ul>
 
@@ -100,3 +98,60 @@ function Topic() {
   const { topicId } = useParams();
   return <h3>Add {topicId}</h3>;
 }
+
+
+
+// const ADD_EXERCISE = "ADD_EXERCISE";
+
+// function reducer(state, action) {
+//   if (action.type === ADD_EXERCISE) {
+//     return {
+//       ...state,
+//       exercises: [
+//         ...state.exercises,
+//         { name: action.name, calories: action.calories },
+//       ],
+//     };
+//   }
+//   if (action.type === "ADD_MEAL") {
+//     return {
+//       ...state,
+//       meals: [
+//         {
+//           ...state.meals,
+//           foodItems: [{ name: action.name, calories: action.calories }],
+//         },
+//       ],
+//     };
+//   }
+//   return state;
+// }
+
+// function App() {
+//   const [state, dispatch] = useReducer(reducer, initialState);
+//   return (
+//     <div className="App">
+//       {getMealTotal(state)} <br />
+//       {getExerciseTotal(state)} <br />
+//       {dailyTotalCalories(state)} <br />
+//       <button
+//         onClick={() =>
+//           dispatch({ type: ADD_EXERCISE, name: "push ups", calories: 33 })
+//         }
+//       >
+//         Add Exercise
+//       </button>
+//       <button
+//         onClick={() =>
+//           dispatch({
+//             type: "ADD_MEAL",
+//             name: "Dinner",
+//             foodItems: [{ name: "Burger", calories: 800 }],
+//           })
+//         }
+//       >
+//         Add Meal
+//       </button>
+//     </div>
+//   );
+// }
