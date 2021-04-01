@@ -1,12 +1,102 @@
-import React from "react";
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 
-function App() {
+import SignIn from "./components/Login/Login"
+import Display from "./components/MealDisplay/MealDisplay";
+import Register from "./components/Register/Register"
+
+export default function App() {
   return (
-    <div className="App">
-      
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/add">Add Item</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/register">Register</Link>
+          </li>
+        </ul>
+
+        <Switch>
+          <Route path="/login">
+            <SignIn />
+          </Route>
+
+          <Route path="/add">
+            <Topics />
+          </Route>
+
+          <Route path="/register">
+            <Register />
+          </Route>
+
+          <Route path="/">
+            <Home />
+            <Display />
+
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+function Home() {
+  return <h2>Home</h2>;
+}
+
+function About() {
+  return <h2>About</h2>;
+}
+
+function Topics() {
+  const match = useRouteMatch();
+
+  return (
+    <div>
+      <h2>Add Item</h2>
+
+      <ul>
+        <li>
+          <Link to={`${match.url}/meal`}>Add Meal</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/exercise`}>
+            Add Exercise
+          </Link>
+        </li>
+      </ul>
+
+      {/* The Topics page has its own <Switch> with more routes
+          that build on the /topics URL path. You can think of the
+          2nd <Route> here as an "index" page for all topics, or
+          the page that is shown when no topic is selected */}
+      <Switch>
+        <Route path={`${match.path}/:topicId`}>
+          <Topic />
+        </Route>
+        <Route path={match.path}>
+          <h3>Add Item.</h3>
+        </Route>
+      </Switch>
     </div>
   );
 }
 
-export default App;
+function Topic() {
+  const { topicId } = useParams();
+  return <h3>Add {topicId}</h3>;
+}
