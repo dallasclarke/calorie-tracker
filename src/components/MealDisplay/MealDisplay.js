@@ -19,7 +19,9 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import { getMeals, getExercises, dailyTotalCalories, getMealTotal, getExerciseTotal } from "../../store/selectors";
-import { addMealAction } from "../../store/meals";
+import { addMealAction, removeMealAction } from "../../store/meals";
+import { addExerciseAction, removeExerciseAction } from "../../store/exercises";
+
 import exercises from "../../store/exercises";
 
 function Copyright() {
@@ -191,8 +193,8 @@ export default function Display() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
-                      View
+                    <Button size="small" color="primary" onClick={() => dispatch(removeMealAction(meal.id))} >
+                      Remove
                     </Button>
                     <Button size="small" color="primary">
                       Edit
@@ -226,8 +228,8 @@ export default function Display() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
-                      View
+                    <Button size="small" color="primary" onClick={() => dispatch(removeExerciseAction(exercise.id))}>
+                      Remove
                     </Button>
                     <Button size="small" color="primary">
                       Edit

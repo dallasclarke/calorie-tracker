@@ -1,4 +1,5 @@
 const ADD_MEAL = "ADD_MEAL";
+const REMOVE_MEAL = "REMOVE_MEAL";
 
 export const addMealAction = (name, foodItems) => ({
   type: ADD_MEAL,
@@ -6,10 +7,20 @@ export const addMealAction = (name, foodItems) => ({
   foodItems,
 });
 
-export default function (state = [], action) {
-  if (action.type === ADD_MEAL) {
-    return [...state, { name: action.name, foodItems: action.foodItems }];
-  }
+export const removeMealAction = (id) => ({
+  type: REMOVE_MEAL,
+  id,
+});
 
-  return state;
+export default function (state = [], action) {
+  
+  switch (action.type) {
+    case ADD_MEAL: 
+      return [...state, {name: action.name, foodItems: action.foodItems}];
+    case REMOVE_MEAL:
+      return state.filter((meal) => meal.id !== action.id);
+
+    default:
+      return state;
+  }
 }

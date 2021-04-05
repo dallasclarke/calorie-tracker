@@ -29,9 +29,9 @@ const initialState = {
     },
   ],
   exercises: [
-    { name: "Running", calories: 300 },
-    { name: "Sit ups", calories: 100 },
-    { name: "Sprints", calories: 50 },
+    { name: "Running", calories: 300, id: uuidv4() },
+    { name: "Sit ups", calories: 100, id: uuidv4() },
+    { name: "Sprints", calories: 50, id: uuidv4() },
   ],
 };
 
