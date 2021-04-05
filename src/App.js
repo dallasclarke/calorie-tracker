@@ -13,7 +13,6 @@ import Display from "./components/MealDisplay/MealDisplay";
 import Register from "./components/Register/Register";
 import Add from "./components/Add/Add";
 
-
 export default function App() {
   return (
     <Router>
@@ -39,6 +38,11 @@ export default function App() {
           </Route>
 
           <Route path="/add">
+            <Topics />
+            <Add />
+          </Route>
+
+          <Route path="/edit/:id">
             <Topics />
             <Add />
           </Route>
@@ -101,8 +105,6 @@ function Topic() {
   const { topicId } = useParams();
   return <h3>Add {topicId}</h3>;
 }
-
-
 
 // const ADD_EXERCISE = "ADD_EXERCISE";
 

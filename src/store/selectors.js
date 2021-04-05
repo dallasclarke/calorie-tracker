@@ -29,3 +29,4 @@ export function getMeals(state) {
 export function getExercises(state) {
   return state.exercises;
 }
+ 

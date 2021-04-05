@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 //import CameraIcon from '@material-ui/icons/PhotoCamera';
@@ -18,7 +19,13 @@ import { ListItemText } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
-import { getMeals, getExercises, dailyTotalCalories, getMealTotal, getExerciseTotal } from "../../store/selectors";
+import {
+  getMeals,
+  getExercises,
+  dailyTotalCalories,
+  getMealTotal,
+  getExerciseTotal,
+} from "../../store/selectors";
 import { addMealAction, removeMealAction } from "../../store/meals";
 import { addExerciseAction, removeExerciseAction } from "../../store/exercises";
 
@@ -77,7 +84,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function Display() {
   const classes = useStyles();
 
@@ -88,6 +94,8 @@ export default function Display() {
   const exerciseTotal = useSelector(getExerciseTotal);
 
   const dispatch = useDispatch();
+
+  
 
   return (
     <React.Fragment>
@@ -193,12 +201,18 @@ export default function Display() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary" onClick={() => dispatch(removeMealAction(meal.id))} >
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() => dispatch(removeMealAction(meal.id))}
+                    >
                       Remove
                     </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
+                    <RouterLink to={`/edit/${meal.id}`}>
+                      <Button size="small" color="primary">
+                        Edit
+                      </Button>
+                    </RouterLink>
                   </CardActions>
                 </Card>
               </Grid>
@@ -228,7 +242,13 @@ export default function Display() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary" onClick={() => dispatch(removeExerciseAction(exercise.id))}>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={() =>
+                        dispatch(removeExerciseAction(exercise.id))
+                      }
+                    >
                       Remove
                     </Button>
                     <Button size="small" color="primary">

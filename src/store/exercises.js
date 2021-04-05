@@ -1,5 +1,6 @@
 const ADD_EXERCISE = "ADD_EXERCISE";
 const REMOVE_EXERCISE = "REMOVE_EXERCISE";
+const EDIT_EXERCISE = "EDIT_EXERCISE";
 
 export const addExerciseAction = (exercises) => ({
   type: ADD_EXERCISE,
@@ -18,6 +19,7 @@ export default function (state = [], action) {
       return [...state, { name: action.name, calories: action.calories }];
     case REMOVE_EXERCISE:
       return state.filter((exercise) => exercise.id !== action.id);
+    
 
     default:
       return state;
