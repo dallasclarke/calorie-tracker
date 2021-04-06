@@ -2,17 +2,11 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addMealAction, editMealAction } from "../../store/meals";
 import { useRouteMatch, useHistory } from "react-router-dom";
-
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-//import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -108,15 +102,13 @@ export default function SignIn() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // You should see email and password in console.
-    // ..code to submit form to backend here...
+
     if (currentMeal) {
       dispatch(editMealAction(id, meal, inputList));
     } else {
       dispatch(addMealAction(meal, inputList));
     }
 
-    /* push the home route onto the history stack. */
     history.push("/");
   }
 
@@ -130,14 +122,21 @@ export default function SignIn() {
         {inputList.map((x, i) => {
           return (
             <div className="box">
-              <input
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
                 name="name"
                 placeholder="Enter Meal Item"
                 value={x.name}
                 onChange={(e) => handleInputChange(e, i)}
               />
-              <input
-                className="ml10"
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
                 name="calories"
                 placeholder="Enter Calories"
                 value={x.calories}
@@ -146,12 +145,12 @@ export default function SignIn() {
               />
               <div className="btn-box">
                 {inputList.length !== 1 && (
-                  <button className="mr10" onClick={() => handleRemoveClick(i)}>
+                  <Button onClick={() => handleRemoveClick(i)}>
                     Remove
-                  </button>
+                  </Button>
                 )}
                 {inputList.length - 1 === i && (
-                  <button onClick={handleAddClick}>Add</button>
+                  <Button onClick={handleAddClick}>Add Item</Button>
                 )}
               </div>
             </div>
@@ -171,7 +170,6 @@ export default function SignIn() {
             value={meal}
             onInput={(e) => setMeal(e.target.value)}
           />
-
           <Button
             type="submit"
             fullWidth
@@ -179,7 +177,7 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           >
-            Save
+            Save Meal
           </Button>
         </form>
       </div>
@@ -189,44 +187,3 @@ export default function SignIn() {
     </Container>
   );
 }
-
-// const inputList = [
-//   { name: "a", calories: "100"},
-//   { name: "b", calories: "23"},
-//   { name: "c", calories: "321"}
-// ]
-
-// const index = 1;
-// const name = "calories";
-// const value = "58"
-
-// inputList[index][name] = value
-
-// inputList.map((inputItem, inputItemIndex) => {
-//   if (inputeItemIndex !== index) {
-//     return inputItem;
-//   }
-
-//   return {
-//     ...inputItem,
-//     [name]: value
-//   };
-// });
-
-// [
-//   { name: "a", calories: "100" }, /// === inputList[0]
-//   { name: "b", calories: "58" }, /// !== inputList[1]
-//   { name: "c", calories: "321" } /// === inputList[2]
-// ];
-
-// const list = [ 0, 1, 1, 1, 0, 1];
-
-// list.filter((item) => {
-//   return item === 0;
-// });
-
-// function Component({ name })) {
-//   const [input, setInput] = useState(name || "");
-
-//   return <div>{input}</div>
-// }

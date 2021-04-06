@@ -1,9 +1,9 @@
 import React from "react";
+
 import { useSelector, useDispatch } from "react-redux";
-import { Link as RouterLink, useRouteMatch } from "react-router-dom";
+import { Link as RouterLink, useRouteMatch, useHistory } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-//import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -44,13 +44,21 @@ function Copyright() {
   );
 }
 
+
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
+  appBar: {
+    backgroundColor: '#0d0c0c',
+  },
+  appBarCard: {
+    color: '#909090',
+  },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    backgroundColor: '#f0f0f0',
+    padding: theme.spacing(4, 0, 6),
   },
   heroButtons: {
     marginTop: theme.spacing(2),
@@ -65,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   cardMedia: {
-    paddingTop: "56.25%", // 16:9
+    paddingTop: "6.25%", // 16:9
   },
   cardContent: {
     flexGrow: 1,
@@ -94,25 +102,20 @@ export default function Display() {
   const exerciseTotal = useSelector(getExerciseTotal);
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
 
   
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="relative">
+      <AppBar position="relative" className={classes.appBar}>
         <Toolbar>
           <Button
             variant="contained"
             color="primary"
-            onClick={() =>
-              dispatch(
-                addMealAction("dinner", [
-                  { name: "cheese", calories: 20 },
-                  { name: "lettuce", calories: 700 },
-                ])
-              )
-            }
+            onClick={() => history.push('/add')}
           >
             +
           </Button>
@@ -132,34 +135,44 @@ export default function Display() {
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
+
+            <div>
+              <Grid container spacing={4} justify="center">
+                <Grid item>
+                    Today
             <Typography
-              component="h1"
-              variant="h2"
+              component="h3"
+              variant="h3"
               align="center"
               color="textPrimary"
               gutterBottom
             >
-              Calories
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={4} justify="center">
+              {dailyTotal}
+            </Typography>                
+            </Grid>
                 <Grid item>
-                  <Button variant="contained" color="primary">
-                    Today
-                  </Button>
-                  <p>{dailyTotal}</p>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
                     Meals
-                  </Button>
-                  <p>{mealTotal}</p>
+            <Typography
+              component="h3"
+              variant="h3"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              {mealTotal}
+            </Typography>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
                     Exercises
-                  </Button>
-                  <p>{exerciseTotal}</p>
+           <Typography
+              component="h3"
+              variant="h3"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              {exerciseTotal}
+            </Typography>
                 </Grid>
               </Grid>
             </div>
@@ -174,11 +187,10 @@ export default function Display() {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
                     title="Image title"
                   />
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.appBarCard}>
                       {meal.name.toUpperCase()}
                     </Typography>
                     <List>
