@@ -1,4 +1,5 @@
 export function getMealTotal(state) {
+  console.log(state);
   let currTotal = 0;
   for (let i = 0; i < state.meals.length; i++) {
     const meal = state.meals[i];
@@ -29,4 +30,3 @@ export function getMeals(state) {
 export function getExercises(state) {
   return state.exercises;
 }
- 

@@ -1,11 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
-
 const ADD_MEAL = "ADD_MEAL";
 const REMOVE_MEAL = "REMOVE_MEAL";
 const EDIT_MEAL = "EDIT_MEAL";
 
-export const addMealAction = (name, foodItems) => ({
+export const addMealAction = (id, name, foodItems) => ({
   type: ADD_MEAL,
+  id,
   name,
   foodItems,
 });
@@ -43,9 +42,9 @@ export default function (state = [], action) {
       return [
         ...state,
         {
-          id: uuidv4(),
+          id: action.id,
           name: action.name,
-          foodItems: cleanFoodItems(action.foodItems),
+          foodItems: action.foodItems,
         },
       ];
     case REMOVE_MEAL:
@@ -56,7 +55,7 @@ export default function (state = [], action) {
           return {
             ...meal,
             name: action.name,
-            foodItems: cleanFoodItems(action.foodItems),
+            foodItems: action.foodItems,
           };
         }
 

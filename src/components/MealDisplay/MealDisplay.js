@@ -1,7 +1,11 @@
 import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { Link as RouterLink, useRouteMatch, useHistory } from "react-router-dom";
+import {
+  Link as RouterLink,
+  useRouteMatch,
+  useHistory,
+} from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -44,20 +48,18 @@ function Copyright() {
   );
 }
 
-
-
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
   appBar: {
-    backgroundColor: '#0d0c0c',
+    backgroundColor: "#0d0c0c",
   },
   appBarCard: {
-    color: '#909090',
+    color: "#909090",
   },
   heroContent: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     padding: theme.spacing(4, 0, 6),
   },
   heroButtons: {
@@ -104,9 +106,6 @@ export default function Display() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-
-  
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -115,7 +114,7 @@ export default function Display() {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => history.push('/add')}
+            onClick={() => history.push("/add")}
           >
             +
           </Button>
@@ -135,44 +134,43 @@ export default function Display() {
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-
             <div>
               <Grid container spacing={4} justify="center">
                 <Grid item>
-                    Today
-            <Typography
-              component="h3"
-              variant="h3"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              {dailyTotal}
-            </Typography>                
-            </Grid>
-                <Grid item>
-                    Meals
-            <Typography
-              component="h3"
-              variant="h3"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              {mealTotal}
-            </Typography>
+                  Today
+                  <Typography
+                    component="h3"
+                    variant="h3"
+                    align="center"
+                    color="textPrimary"
+                    gutterBottom
+                  >
+                    {dailyTotal}
+                  </Typography>
                 </Grid>
                 <Grid item>
-                    Exercises
-           <Typography
-              component="h3"
-              variant="h3"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              {exerciseTotal}
-            </Typography>
+                  Meals
+                  <Typography
+                    component="h3"
+                    variant="h3"
+                    align="center"
+                    color="textPrimary"
+                    gutterBottom
+                  >
+                    {mealTotal}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  Exercises
+                  <Typography
+                    component="h3"
+                    variant="h3"
+                    align="center"
+                    color="textPrimary"
+                    gutterBottom
+                  >
+                    {exerciseTotal}
+                  </Typography>
                 </Grid>
               </Grid>
             </div>
@@ -190,7 +188,12 @@ export default function Display() {
                     title="Image title"
                   />
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.appBarCard}>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      className={classes.appBarCard}
+                    >
                       {meal.name.toUpperCase()}
                     </Typography>
                     <List>
@@ -263,9 +266,11 @@ export default function Display() {
                     >
                       Remove
                     </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
+                    <RouterLink to={`/edit/${exercise.id}`}>
+                      <Button size="small" color="primary">
+                        Edit
+                      </Button>
+                    </RouterLink>
                   </CardActions>
                 </Card>
               </Grid>

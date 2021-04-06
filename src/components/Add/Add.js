@@ -102,14 +102,42 @@ export default function SignIn() {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    if (currentMeal) {
-      dispatch(editMealAction(id, meal, inputList));
+    const cleanInputList = inputList
+      .filter((item) => item.name !== "" && item.calories !== "")
+      .map((item) => ({ name: item.name, calories: Number(item.calories) }));
+    if (id) {
+      fetch(`/api/meals/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: meal,
+          foodItems: cleanInputList,
+        }),
+      })
+        .then((response) => response.json())
+        .then((meal) => {
+          dispatch(editMealAction(id, meal.name, meal.foodItems));
+          history.push("/");
+        });
     } else {
-      dispatch(addMealAction(meal, inputList));
+      fetch("/api/meals", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: meal,
+          foodItems: cleanInputList,
+        }),
+      })
+        .then((response) => response.json())
+        .then((meal) => {
+          dispatch(addMealAction(meal.id, meal.name, meal.foodItems));
+          history.push("/");
+        });
     }
-
-    history.push("/");
   }
 
   return (
@@ -145,9 +173,7 @@ export default function SignIn() {
               />
               <div className="btn-box">
                 {inputList.length !== 1 && (
-                  <Button onClick={() => handleRemoveClick(i)}>
-                    Remove
-                  </Button>
+                  <Button onClick={() => handleRemoveClick(i)}>Remove</Button>
                 )}
                 {inputList.length - 1 === i && (
                   <Button onClick={handleAddClick}>Add Item</Button>
